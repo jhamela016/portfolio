@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Jhamela Oandasan — Writer & Creative Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --sky:   #C9DFF2;
+            --dusk:  #E8A87C;
+            --dusk2: #D4756A;
+            --sand:  #F5EDE3;
+            --ink:   #1C1C2E;
+            --muted: #6B6B80;
+            --white: #FFFFFF;
+        }
+
+        html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--sand);
+            color: var(--ink);
+            overflow-x: hidden;
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            padding: 16px 28px;
+            display: flex; justify-content: space-between; align-items: center;
+            transition: background 0.35s;
+        }
+        nav.scrolled {
+            background: rgba(28,28,46,0.95);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+        }
+        .nav-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 22px; font-weight: 600;
+            color: var(--white); letter-spacing: 1px;
+        }
+        .nav-links { display: flex; gap: 28px; list-style: none; }
+        .nav-links a {
+            font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase;
+            color: rgba(255,255,255,0.85); text-decoration: none; font-weight: 500;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--dusk); }
+        .menu-toggle {
+            display: none;
+            background: rgba(255,255,255,0.12); border: none; color: var(--white);
+            font-size: 22px; cursor: pointer; padding: 6px 12px; border-radius: 30px; line-height: 1;
+        }
+
+        /* ══════════════════════════════
+           HERO — DESKTOP (side by side)
+        ══════════════════════════════ */
+        .hero {
+            width: 100%; min-height: 100vh; min-height: 100dvh;
+            display: grid; grid-template-columns: 48% 52%;
+            overflow: hidden;
+        }
+
+        /* LEFT text panel */
+        .hero-left {
+            background: var(--ink);
+            display: flex; flex-direction: column; justify-content: center;
+            padding: 100px 56px 80px 60px;
+            position: relative; z-index: 2;
+        }
+        .hero-left::after {
+            content: '';
+            position: absolute; right: -56px; top: 0; bottom: 0; width: 112px;
+            background: var(--ink);
+            clip-path: polygon(0 0, 0% 100%, 100% 100%);
+            z-index: 3;
+        }
+        .hero-eyebrow {
+            font-size: 10px; letter-spacing: 3.5px; text-transform: uppercase;
+            color: var(--dusk); margin-bottom: 22px;
+        }
+        .hero-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(52px, 7.5vw, 88px);
+            font-weight: 300; line-height: 1.02; color: var(--white);
+        }
+        .hero-name em { font-style: italic; color: var(--dusk); display: block; }
+        .hero-tagline {
+            font-size: 14px; color: var(--sky); font-weight: 300;
+            margin-top: 24px; max-width: 300px; line-height: 1.8;
+        }
+        .hero-cta {
+            margin-top: 40px;
+            display: inline-flex; align-items: center; gap: 10px;
+            font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase;
+            color: var(--dusk); text-decoration: none;
+            border-bottom: 1px solid var(--dusk); padding-bottom: 4px;
+            width: fit-content; transition: gap 0.2s;
+        }
+        .hero-cta:hover { gap: 16px; }
+        .scroll-pill {
+            position: absolute; bottom: 32px; left: 60px;
+            display: flex; align-items: center; gap: 10px;
+            color: rgba(255,255,255,0.45); font-size: 10px;
+            letter-spacing: 3px; text-transform: uppercase;
+        }
+        .scroll-pill::before {
+            content: ''; display: block; width: 32px; height: 1px;
+            background: rgba(255,255,255,0.35);
+        }
+
+        /* RIGHT photo panel — DESKTOP */
+        .hero-right {
+            position: relative;
+            background: linear-gradient(160deg, #C9DFF2 0%, #AECDE8 30%, #E0A882 75%, #D4756A 100%);
+            overflow: hidden;
+            display: flex; align-items: flex-end; justify-content: center;
+        }
+        .sun-glow {
+            position: absolute; width: 260px; height: 260px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,224,140,0.55) 0%, rgba(232,168,124,0.25) 55%, transparent 75%);
+            bottom: 32%; left: 50%; transform: translateX(-50%);
+            z-index: 1; pointer-events: none;
+        }
+
+        /*
+         * DESKTOP PHOTO: contain = whole image visible, no crop
+         * object-position centres it in the frame
+         */
+        .hero-photo {
+            position: relative; z-index: 2;
+            width: 80%;
+            height: 94%;
+            max-height: 94vh;
+            object-fit: contain;          /* ← WHOLE IMAGE, no crop */
+            object-position: bottom center;
+            display: block;
+            filter: drop-shadow(0 -12px 36px rgba(0,0,0,0.16));
+        }
+
+        .hero-wave {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            z-index: 3; pointer-events: none; line-height: 0;
+        }
+        .hero-wave svg { width: 100%; display: block; }
+
+        /* ══════════════════════════════
+           SHARED SECTION STYLES
+        ══════════════════════════════ */
+        .sec { padding: clamp(64px, 10vw, 110px) clamp(24px, 7vw, 100px); }
+        .sec-inner { max-width: 1060px; margin: 0 auto; }
+
+        .sec-label {
+            font-size: 10px; letter-spacing: 3.5px; text-transform: uppercase;
+            color: var(--dusk2); margin-bottom: 14px;
+        }
+        .sec-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(32px, 4.5vw, 58px); font-weight: 300;
+            line-height: 1.12; color: var(--ink);
+            margin-bottom: clamp(36px, 5vw, 52px);
+        }
+        .sec-title em { font-style: italic; color: var(--dusk2); }
+
+        .sec--dark { background: var(--ink); }
+        .sec--dark .sec-label { color: var(--dusk); }
+        .sec--dark .sec-title { color: var(--white); }
+        .sec--dark .sec-title em { color: var(--dusk); }
+        .sec--darker { background: #16162A; }
+        .sec--darker .sec-label { color: var(--dusk); }
+        .sec--darker .sec-title { color: var(--white); }
+        .sec--darker .sec-title em { color: var(--dusk); }
+
+        /* ABOUT */
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px,6vw,72px); align-items: start; }
+        .about-bio { font-size: 15px; line-height: 1.95; color: var(--muted); font-weight: 300; }
+        .about-bio strong { color: var(--ink); font-weight: 500; }
+        .about-bio p + p { margin-top: 20px; }
+        .info-list { border-top: 1px solid rgba(28,28,46,0.1); }
+        .info-item {
+            display: flex; justify-content: space-between; align-items: baseline;
+            padding: 15px 0; border-bottom: 1px solid rgba(28,28,46,0.1); gap: 12px;
+        }
+        .info-key { font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--muted); flex-shrink: 0; }
+        .info-val { font-size: 14px; color: var(--ink); font-weight: 400; text-align: right; }
+
+        /* SKILLS */
+        .skills-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 16px; }
+        .skill-card {
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 4px; padding: 28px 18px; text-align: center;
+            transition: transform 0.25s, border-color 0.25s, background 0.25s; cursor: default;
+        }
+        .skill-card:hover { transform: translateY(-5px); border-color: var(--dusk); background: rgba(232,168,124,0.06); }
+        .skill-icon { font-size: 36px; margin-bottom: 14px; display: block; }
+        .skill-name { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 400; color: var(--white); margin-bottom: 8px; }
+        .skill-desc { font-size: 12px; line-height: 1.65; color: rgba(255,255,255,0.45); }
+
+        /* BROADCASTING */
+        .bcast-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .bcast-card {
+            background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 4px; padding: 36px 32px;
+            transition: transform 0.25s, border-color 0.25s;
+        }
+        .bcast-card:hover { transform: translateY(-4px); border-color: var(--dusk); }
+        .bcast-icon { font-size: 40px; margin-bottom: 18px; display: block; }
+        .bcast-title { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 400; color: var(--white); margin-bottom: 12px; }
+        .bcast-desc { font-size: 14px; line-height: 1.8; color: rgba(255,255,255,0.5); }
+
+        /* CREATIVE */
+        .creative-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px,4vw,48px); }
+        .creative-card {
+            background: var(--white); border: 1px solid rgba(28,28,46,0.08);
+            border-radius: 4px; padding: clamp(28px,4vw,40px);
+            transition: transform 0.25s, border-color 0.25s;
+        }
+        .creative-card:hover { transform: translateY(-4px); border-color: var(--dusk2); }
+        .creative-icon { font-size: 40px; margin-bottom: 18px; display: block; }
+        .creative-title { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 400; color: var(--ink); margin-bottom: 12px; }
+        .creative-desc { font-size: 14px; line-height: 1.8; color: var(--muted); }
+
+        /* FOOTER */
+        footer { background: var(--ink); color: rgba(255,255,255,0.4); text-align: center; padding: 40px 24px; font-size: 12px; }
+        footer span { color: var(--dusk); }
+
+        /* FADE UP */
+        .fade-up { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
+        .fade-up.visible { opacity: 1; transform: none; }
+        .fade-up:nth-child(2) { transition-delay: 0.1s; }
+        .fade-up:nth-child(3) { transition-delay: 0.2s; }
+
+        /* ══════════════════════════════
+           MOBILE ≤ 768px
+           Hero redesign: full-width photo card on top,
+           showing the COMPLETE image (no crop at all)
+        ══════════════════════════════ */
+        @media (max-width: 768px) {
+
+            .hero {
+                grid-template-columns: 1fr;
+                min-height: unset;
+            }
+
+            /* Photo panel — on top */
+            .hero-right {
+                order: 0;
+                /* Height auto so it grows to fit the whole image */
+                height: auto;
+                min-height: unset;
+                max-height: unset;
+                padding: 60px 0 0 0;  /* top padding so image isn't hidden under nav */
+                align-items: flex-end;
+                justify-content: center;
+                background: linear-gradient(172deg, #C9DFF2 0%, #B8D6EE 22%, #E2B08C 62%, #D4756A 100%);
+                position: relative;
+            }
+
+            /* Fade at bottom to blend into dark text panel */
+            .hero-right::after {
+                content: '';
+                position: absolute; bottom: 0; left: 0; right: 0;
+                height: 64px;
+                background: linear-gradient(to bottom, transparent 0%, var(--ink) 100%);
+                z-index: 4; pointer-events: none;
+            }
+
+            .sun-glow {
+                width: 130px; height: 130px;
+                bottom: 30%; opacity: 0.7;
+            }
+
+            /*
+             * MOBILE PHOTO KEY FIX:
+             * - width: 72% → portrait-style, centred
+             * - height: auto → image's natural height, ZERO crop
+             * - object-fit: contain → whole image rendered
+             * - display as block with margin auto → centred
+             */
+            .hero-photo {
+                position: relative; z-index: 2;
+                width: 72%;
+                height: auto;           /* ← natural height, no crop */
+                max-height: none;
+                object-fit: contain;    /* ← WHOLE IMAGE */
+                object-position: center bottom;
+                border-radius: 32px 32px 0 0;
+                display: block;
+                margin: 0 auto;
+                filter: drop-shadow(0 -8px 28px rgba(0,0,0,0.2));
+            }
+
+            /* Hide desktop wave; gradient handles the blend */
+            .hero-wave { display: none; }
+
+            /* Text panel — below photo */
+            .hero-left {
+                order: 1;
+                padding: 36px 28px 52px;
+                min-height: auto;
+                justify-content: flex-start;
+            }
+            .hero-left::after { display: none; }
+
+            .hero-name { font-size: clamp(38px, 10vw, 54px); }
+            .hero-tagline { max-width: 100%; margin-top: 14px; font-size: 13px; color: rgba(201,223,242,0.85); }
+            .hero-cta { margin-top: 24px; }
+            .scroll-pill { display: none; }
+
+            /* Nav */
+            nav { padding: 14px 20px; }
+            .menu-toggle { display: block; }
+            .nav-links {
+                position: fixed; top: 0; right: -100%; width: 72%; max-width: 260px;
+                height: 100vh; background: rgba(18,18,32,0.98); backdrop-filter: blur(20px);
+                flex-direction: column; justify-content: center; align-items: center;
+                gap: 36px; transition: right 0.3s ease; z-index: 99;
+            }
+            .nav-links.active { right: 0; }
+            .nav-links a { font-size: 15px; letter-spacing: 2px; }
+
+            /* Sections */
+            .sec { padding: 56px 24px; }
+            .about-grid, .bcast-grid, .creative-grid { grid-template-columns: 1fr; gap: 20px; }
+            .skills-grid { grid-template-columns: repeat(2,1fr); gap: 12px; }
+            .info-item { flex-wrap: wrap; }
+            .info-val { text-align: left; }
+        }
+
+        @media (max-width: 480px) {
+            .hero-photo {
+                width: 82%;   /* wider on small phones so face fills more screen */
+            }
+            .hero-right { padding-top: 56px; }
+            .hero-name { font-size: 36px; }
+            .skills-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (min-width: 1200px) {
+            .hero-photo { width: 72%; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .fade-up { transition: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="navbar">
+        <div class="nav-logo">JO</div>
+        <button class="menu-toggle" id="menuToggle" aria-label="Open menu">☰</button>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#broadcasting">Broadcasting</a></li>
+            <li><a href="#creative">Creative</a></li>
+        </ul>
+    </nav>
+
+    <div class="hero">
+
+        <!-- LEFT: text -->
+        <div class="hero-left">
+            <p class="hero-eyebrow">Portfolio · Masi, Cagayan · Philippines</p>
+            <h1 class="hero-name">Jhamela<em>Oandasan</em></h1>
+            <p class="hero-tagline">A 16-year-old writer with a love for the sea, the net, and every golden hour in between.</p>
+            <a href="#about" class="hero-cta">Explore my story →</a>
+            <div class="scroll-pill">Scroll to explore</div>
+        </div>
+
+        <!-- RIGHT: photo -->
+        <div class="hero-right">
+            <div class="sun-glow"></div>
+            <img
+                class="hero-photo"
+                src="formal.png"
+                alt="Portrait of Jhamela Oandasan, writer from Cagayan"
+                loading="eager"
+                fetchpriority="high"
+            />
+            <div class="hero-wave">
+                <svg viewBox="0 0 1440 72" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0,48 C180,72 360,24 540,36 C720,48 900,68 1080,56 C1260,44 1380,52 1440,52 L1440,72 L0,72 Z" fill="#F5EDE3" opacity="0.95"/>
+                    <path d="M0,60 C240,44 480,68 720,60 C960,52 1200,64 1440,58 L1440,72 L0,72 Z" fill="#F5EDE3" opacity="0.6"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- ABOUT -->
+    <section id="about" class="sec">
+        <div class="sec-inner">
+            <p class="sec-label fade-up">Who I Am</p>
+            <h2 class="sec-title fade-up">A little bit <em>about me</em></h2>
+            <div class="about-grid fade-up">
+                <div class="about-bio">
+                    <p>Hi! I'm <strong>Jhamela</strong> — a sixteen-year-old from the quiet barangay of Masi in <strong>Sta. Teresita, Cagayan</strong>. I find peace in putting words on a page and energy in diving for a volleyball.</p>
+                    <p>Growing up in the Philippines has given me a deep love for the ocean, warm light, and the creatures that share our world — especially cats and dogs. Music is my constant companion, and I believe every sunset is worth stopping for.</p>
+                </div>
+                <div class="info-list">
+                    <div class="info-item"><span class="info-key">Age</span><span class="info-val">16 years old</span></div>
+                    <div class="info-item"><span class="info-key">Birthday</span><span class="info-val">March 29, 2010</span></div>
+                    <div class="info-item"><span class="info-key">Gender</span><span class="info-val">Female</span></div>
+                    <div class="info-item"><span class="info-key">Location</span><span class="info-val">Masi, Sta. Teresita, Cagayan</span></div>
+                    <div class="info-item"><span class="info-key">Country</span><span class="info-val">🇵🇭 Philippines</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SKILLS -->
+    <div id="skills" class="sec sec--dark">
+        <div class="sec-inner">
+            <p class="sec-label fade-up">What I've Learned</p>
+            <h2 class="sec-title fade-up">Technical <em>skills</em></h2>
+            <div class="skills-grid fade-up">
+                <div class="skill-card"><span class="skill-icon">📄</span><h3 class="skill-name">Microsoft Word</h3><p class="skill-desc">Document formatting, reports, layouts</p></div>
+                <div class="skill-card"><span class="skill-icon">📊</span><h3 class="skill-name">PowerPoint</h3><p class="skill-desc">Presentations, animations, slide design</p></div>
+                <div class="skill-card"><span class="skill-icon">📈</span><h3 class="skill-name">Excel</h3><p class="skill-desc">Spreadsheets, formulas, data organization</p></div>
+                <div class="skill-card"><span class="skill-icon">💻</span><h3 class="skill-name">Basic C++</h3><p class="skill-desc">Variables, loops, functions, logic building</p></div>
+                <div class="skill-card"><span class="skill-icon">🌐</span><h3 class="skill-name">Web Dev</h3><p class="skill-desc">HTML, CSS, responsive design basics</p></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BROADCASTING -->
+    <div id="broadcasting" class="sec sec--darker">
+        <div class="sec-inner">
+            <p class="sec-label fade-up">School Media</p>
+            <h2 class="sec-title fade-up">Broadcasting <em>experience</em></h2>
+            <div class="bcast-grid fade-up">
+                <div class="bcast-card"><span class="bcast-icon">📺</span><h3 class="bcast-title">Infomercial</h3><p class="bcast-desc">Creating school infomercials — from scripting and filming to delivering clear, engaging messages for events and announcements.</p></div>
+                <div class="bcast-card"><span class="bcast-icon">🎤</span><h3 class="bcast-title">Chika Minutes</h3><p class="bcast-desc">A segment where I share lighthearted stories, campus updates, and fun conversations — keeping the student body informed and entertained.</p></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CREATIVE -->
+    <section id="creative" class="sec">
+        <div class="sec-inner">
+            <p class="sec-label fade-up">Creative Outlets</p>
+            <h2 class="sec-title fade-up">Writing <em>&amp; drawing</em></h2>
+            <div class="creative-grid fade-up">
+                <div class="creative-card"><span class="creative-icon">✍️</span><h3 class="creative-title">Writing</h3><p class="creative-desc">Words are my anchor. I write stories, poems, and personal reflections — capturing moments, emotions, and the beauty of everyday life. Journaling helps me understand the world and myself.</p></div>
+                <div class="creative-card"><span class="creative-icon">🎨</span><h3 class="creative-title">Drawing</h3><p class="creative-desc">Sketches and doodles fill my notebooks. I love bringing ideas to life through lines and shading — whether it's portraits, landscapes, or simple illustrations inspired by the sea and sky.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>Crafted with 🌅 by <span>Jhamela Oandasan</span> · Masi, Cagayan · Philippines</p>
+    </footer>
+
+    <script>
+        const io = new IntersectionObserver(entries => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.12, rootMargin: '0px 0px -16px 0px' });
+        document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 40);
+        }, { passive: true });
+
+        const toggle = document.getElementById('menuToggle');
+        const links  = document.getElementById('navLinks');
+        toggle.addEventListener('click', () => {
+            const open = links.classList.toggle('active');
+            toggle.textContent = open ? '✕' : '☰';
+            toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+        });
+        links.querySelectorAll('a').forEach(a => {
+            a.addEventListener('click', () => { links.classList.remove('active'); toggle.textContent = '☰'; });
+        });
+        document.addEventListener('click', e => {
+            if (!links.contains(e.target) && e.target !== toggle && links.classList.contains('active')) {
+                links.classList.remove('active'); toggle.textContent = '☰';
+            }
+        });
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) { links.classList.remove('active'); toggle.textContent = '☰'; }
+        });
+    </script>
+</body>
+</html>
